@@ -7,6 +7,12 @@ import { BookValidation } from './book.validation';
 
 const router = express.Router();
 
+router.post(
+  '/reviews/:id',
+  UserValidation.validateRequest(BookValidation.addReviewSchema),
+  BookController.addReview
+);
+
 router.get(
   '/:id',
   // auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.BUYER, ENUM_USER_ROLE.SELLER),

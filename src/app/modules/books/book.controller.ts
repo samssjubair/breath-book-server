@@ -21,6 +21,20 @@ const createBook: RequestHandler = catchAsync(
   }
 );
 
+const addReview: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const result = await BookService.addReview(id, req.body);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'review added successfully',
+      data: result,
+    });
+  }
+);
+
 const getAllBooks = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, bookFilterableFields);
   const paginationOptions = pick(req.query, paginationFields);
@@ -82,4 +96,5 @@ export const BookController = {
   getSingleBook,
   deleteBook,
   updateBook,
+  addReview,
 };

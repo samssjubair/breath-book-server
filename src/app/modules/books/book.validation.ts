@@ -18,7 +18,14 @@ const updateBookSchema = z.object({
   }),
 });
 
+const addReviewSchema = z.object({
+  body: z.object({
+    comment: z.string().nonempty().min(1),
+  }),
+});
+
 export const BookValidation = {
   createBookSchema,
   updateBookSchema,
+  addReviewSchema,
 };

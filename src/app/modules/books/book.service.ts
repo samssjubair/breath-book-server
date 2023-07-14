@@ -5,8 +5,10 @@ import {
   IPaginationOptions,
 } from '../../../interfaces/common';
 import { bookSearchableFields } from './book.constant';
-import { IBook, IBookFilters } from './book.interface';
+import { IBook, IBookFilters, IReview } from './book.interface';
 import { Book } from './book.model';
+import httpStatus from 'http-status';
+import APIError from '../../../errors/ApiError';
 
 const createBook = async (payload: IBook): Promise<IBook | null> => {
   const bookData = await Book.create(payload);
@@ -116,10 +118,32 @@ const updateBook = async (
   return updatedBook;
 };
 
+const addReview = async (
+  id: string,
+  payload: Partial<IReview>
+): Promise<IBook | null> => {
+  const book = await Book.findById(id);
+
+  if (!book) {
+    throw new APIError(
+      httpStatus.NOT_FOUND,
+      'Book not found'
+    ); 
+  }
+
+  // Update the book with the review payload
+  book.reviews.push(payload as IReview);
+
+  const updatedBook = await book.save();
+
+  return updatedBook;
+};
+
 export const BookService = {
   createBook,
   getAllBooks,
   getSingleBook,
   deleteBook,
   updateBook,
+  addReview,
 };
