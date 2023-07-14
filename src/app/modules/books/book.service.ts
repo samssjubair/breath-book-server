@@ -17,9 +17,7 @@ const getAllBooks = async (
   filters: IBookFilters,
   paginationOptions: IPaginationOptions
 ): Promise<IGenericResponse<IBook[]>> => {
-  const { 
-    // genre , publicationYear,
-     searchTerm, ...filtersData } = filters;
+  const { genre, publicationYear, searchTerm, ...filtersData } = filters;
   const { page, limit, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePaginations(paginationOptions);
 
@@ -36,7 +34,7 @@ const getAllBooks = async (
     });
   }
 
-  // if (genre && publicationYear) {
+  // if (minPrice && maxPrice) {
   //   andConditions.push({
   //     price: {
   //       $gte: minPrice,
@@ -56,6 +54,14 @@ const getAllBooks = async (
   //     },
   //   });
   // }
+
+  if (genre) {
+    andConditions.push({ genre });
+  }
+
+  if (publicationYear) {
+    andConditions.push({ publicationYear });
+  }
 
   if (Object.keys(filtersData).length) {
     andConditions.push({
