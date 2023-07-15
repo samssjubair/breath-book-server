@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { IUser, IUserMethods, UserModel, UserName } from './user.interface';
+import { IUser, IUserMethods, UserModel } from './user.interface';
 import config from '../../../config';
 import bcrypt from 'bcrypt';
 
@@ -13,44 +13,11 @@ export const UserSchema = new Schema<
       type: String,
       required: true,
     },
-    role: {
-      type: String,
-      enum: ['buyer', 'seller', 'admin'],
-      required: true,
-    },
-    name: {
-      type: new Schema<UserName>(
-        {
-          firstName: {
-            type: String,
-            required: true,
-          },
-          lastName: {
-            type: String,
-            required: true,
-          },
-        },
-        {
-          _id: false,
-        }
-      ),
-      required: true,
-    },
-    phoneNumber: {
+    email: {
       type: String,
       required: true,
       unique: true,
-    },
-    address: {
-      type: String,
-      required: true,
-    },
-    budget: {
-      type: Number,
-    },
-    income: {
-      type: Number,
-    },
+    }
   },
   {
     timestamps: true,
@@ -58,15 +25,15 @@ export const UserSchema = new Schema<
 );
 
 UserSchema.statics.isUserExist = async function (
-  phoneNumber: string
-): Promise<Pick<IUser, 'password' | 'role' | 'phoneNumber'> | null> {
-  return await User.findOne({ phoneNumber }, { _id: 1, password: 1, role: 1 });
+  email: string
+): Promise<Pick<IUser, 'password' | 'email'> | null> {
+  return await User.findOne({ email }, { _id: 1, password: 1 });
 };
 
 UserSchema.statics.isUserExistById = async function (
   _id: string
-): Promise<Pick<IUser, 'password' | 'role' | 'phoneNumber'> | null> {
-  return await User.findOne({ _id }, { _id: 1, password: 1, role: 1 });
+): Promise<Pick<IUser, 'password' |'email'> | null> {
+  return await User.findOne({ _id }, { _id: 1, password: 1});
 };
 
 UserSchema.statics.isPasswordMatched = async function (

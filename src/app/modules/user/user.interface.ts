@@ -8,12 +8,7 @@ export type UserName = {
 export type IUser = {
   _id: string;
   password: string;
-  role: 'buyer' | 'seller' | 'admin';
-  name: UserName;
-  phoneNumber: string;
-  budget?: number;
-  income?: number;
-  address: string;
+  email: string;
 };
 
 export type IUserMethods = {
@@ -24,11 +19,11 @@ export type IUserMethods = {
 
 export type UserModel = {
   isUserExist(
-    phoneNumber: string
-  ): Promise<Pick<IUser, 'password' | 'role' | '_id'>>;
+    email: string
+  ): Promise<Pick<IUser, 'password' |  '_id'>>;
   isUserExistById(
     _id: string
-  ): Promise<Pick<IUser, 'password' | 'role' | '_id'>>;
+  ): Promise<Pick<IUser, 'password' |'_id'>>;
   isPasswordMatched(
     givenPassword: string,
     savedPassword: string
@@ -37,14 +32,14 @@ export type UserModel = {
 
 // export type UserModel = Model<IUser, Record<string, unknown>>;
 
-export type IUserFilters = {
-  searchTerm?: string;
-  phoneNumber?: string;
-  budget?: number;
-};
+// export type IUserFilters = {
+//   searchTerm?: string;
+//   email?: string;
+//   budget?: number;
+// };
 
 export type ILoginUser = {
-  phoneNumber: string;
+  email: string;
   password: string;
 };
 
