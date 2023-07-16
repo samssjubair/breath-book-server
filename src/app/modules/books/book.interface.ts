@@ -6,6 +6,7 @@ export type IReview = {
 };
 
 export type IBook = {
+  addedBy: string;
   title: string;
   author: string;
   genre: string;

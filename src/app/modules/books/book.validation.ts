@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 const createBookSchema = z.object({
   body: z.object({
+    addedBy: z.string().nonempty(),
     title: z.string().nonempty().min(1),
     author: z.string().nonempty().min(1),
     genre: z.enum(['fiction', 'non-fiction', 'comic', 'novel', 'other']),
